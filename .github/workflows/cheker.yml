@@ -1,15 +1,51 @@
-name: test-minimal
+name: page-checker
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "0 * * * *"  # 毎時実行
 
 jobs:
-  test:
+  check:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Fetch test page
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Fetch current page
         run: |
           mkdir -p snapshots
-          curl -s "http://example.com" > snapshots/current.html
-          echo "fetched ok"
+          curl -s "https://www.burgerking.co.jp/" > snapshots/current_test.html
+          echo "Fetched OK"
+
+      - name: Compare snapshot
+        id: diff
+        run: |
+          mkdir -p snapshots
+
+          if [ -f snapshots/last_test.html ]; then
+            echo "Comparing with previous snapshot..."
+          else
+            echo "No last snapshot → creating empty"
+            touch snapshots/last_test.html
+          fi
+
+          if diff -q snapshots/last_test.html snapshots/current_test.html >/dev/null; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Save & Commit if changed
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          cp snapshots/current_test.html snapshots/last_test.html
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add snapshots/last_test.html
+          git commit -m "Update snapshot"
+          git push
+
+      - name: Show result
+        run: echo "changed = ${{ steps.diff.outputs.changed }}"
