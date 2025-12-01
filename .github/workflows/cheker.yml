@@ -1,8 +1,9 @@
-name: time-checker
+name: web-page-checker
 
 on:
   workflow_dispatch:
-
+  schedule:
+    - cron: "0 * * * *"  # 毎時0分に実行（あとで変えてOK）
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -10,11 +11,10 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
-
       - name: Fetch current page
         run: |
           mkdir -p snapshots
-          curl -s "https://worldtimeapi.org/api/timezone/Etc/UTC" > snapshots/current_test.html
+          curl -L -s "https://worldtimeapi.org/api/timezone/Etc/UTC" > snapshots/current_test.html
           echo "===== current_test.html (head) ====="
           head -n 5 snapshots/current_test.html
 
@@ -26,41 +26,25 @@ jobs:
           if [ -f snapshots/last_test.html ]; then
             echo "Comparing with previous snapshot..."
           else
-            echo "No last snapshot -> creating empty"
+            echo "No last snapshot -> create empty"
             touch snapshots/last_test.html
           fi
-
-          echo "----- hash(current) -----"
-          sha256sum snapshots/current_test.html
-          echo "----- hash(last)    -----"
-          sha256sum snapshots/last_test.html || true
 
           if diff -q snapshots/last_test.html snapshots/current_test.html >/dev/null; then
             echo "changed=false" >> $GITHUB_OUTPUT
           else
             echo "changed=true" >> $GITHUB_OUTPUT
           fi
-
       - name: Save & Commit if changed
         if: steps.diff.outputs.changed == 'true'
         run: |
           cp snapshots/current_test.html snapshots/last_test.html
+
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add snapshots/last_test.html
-          git commit -m "Update snapshot" || echo "No changes"
+          git commit -m "Update snapshot" || echo "No changes to commit"
           git push
 
       - name: Show result
         run: echo "changed = ${{ steps.diff.outputs.changed }}"
-
-      - name: Send LINE notification
-        if: steps.diff.outputs.changed == 'true'
-        run: |
-          curl -X POST https://api.line.me/v2/bot/message/push \
-            -H "Content-Type: application/json" \
-            -H "Authorization: Bearer ${{ secrets.LINE_ACCESS_TOKEN }}" \
-            -d '{
-              "to": "U89504423f0bca517642541b77f3dc382",
-              "messages":[{"type":"text","text":"⏰ worldtimeapi に変化がありました"}]
-            }'
