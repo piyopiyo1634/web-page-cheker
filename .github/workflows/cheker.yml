@@ -1,0 +1,45 @@
+name: Test page checker
+
+on:
+  schedule:
+    - cron: "0 * * * *"  # 毎時0分に実行（GitHub側の都合で数分ずれることはあります）
+  workflow_dispatch:
+
+jobs:
+  check-test-page:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+      - uses: actions/checkout@v4
+
+      - name: Fetch test page (worldtimeapi)
+        run: |
+          mkdir -p snapshots
+          curl -s "https://worldtimeapi.org/api/timezone/Etc/UTC" > snapshots/current_test.json
+          echo "===== current_test.json ====="
+          cat snapshots/current_test.json
+
+      - name: Compare with previous snapshot
+        id: diff
+        run: |
+          # 初回用：前回ファイルがなければ空ファイルを作っておく
+          [ -f snapshots/last_test.json ] || touch snapshots/last_test.json
+
+          # 差分があるかチェック
+          if diff -q snapshots/last_test.json snapshots/current_test.json > /dev/null; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "No change detected."
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "Change detected!"
+          fi
+
+      - name: Save snapshot for next time
+        run: |
+          cp snapshots/current_test.json snapshots/last_test.json
+
+      - name: Notify in logs if changed
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          echo ">>> Test page CHANGED (as expected, time moved)."
