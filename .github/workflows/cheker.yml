@@ -42,9 +42,14 @@ jobs:
 
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          # 一応最新の main を取り込んでおく（fast-forward だけ）
+          git fetch origin main
+          git merge --ff-only origin/main || true
+
           git add snapshots/last_test.html
           git commit -m "Update snapshot" || echo "No changes to commit"
-          git push
 
+          # ここで race condition が起きてもエラーにしない
+          git push origin HEAD:main || echo "Push failed, but continue."
       - name: Show result
         run: echo "changed = ${{ steps.diff.outputs.changed }}"
