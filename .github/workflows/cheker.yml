@@ -19,3 +19,16 @@ jobs:
           curl -s "https://worldtimeapi.org/api/timezone/Etc/UTC" > snapshots/current.json
           echo "===== current.json ====="
           cat snapshots/current.json
+      - name: Compare with previous snapshot
+        id: diff
+        run: |
+          [ -f snapshots/last.json ] || touch snapshots/last.json
+          if diff -q snapshots/last.json snapshots/current.json > /dev/null; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Save snapshot for next time
+        run: |
+          cp snapshots/current.json snapshots/last.json
