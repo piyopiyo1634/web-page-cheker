@@ -10,9 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Compare snapshot
-      id: diff
-      run: |
-        mkdir -p snapshots
+        id: diff
+        run: |
+          mkdir -p snapshots
 
         echo "===== diff start ====="
         if [ ! -f snapshots/last_test.html ]; then
