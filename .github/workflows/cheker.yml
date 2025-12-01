@@ -13,7 +13,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-         - name: Fetch test page
+              - name: Fetch test page
         run: |
           mkdir -p snapshots
           curl -s "http://example.com" > snapshots/current_test.html
