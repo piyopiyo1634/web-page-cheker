@@ -16,7 +16,7 @@ jobs:
       - name: Fetch test page
         run: |
           mkdir -p snapshots
-          curl -s "https://worldtimeapi.org/api/timezone/Etc/UTC" > snapshots/current_test.json
+          curl -s "https://api.github.com" > snapshots/current_test.json
           echo "===== current_test.json ====="
           cat snapshots/current_test.json
 
