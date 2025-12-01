@@ -55,18 +55,17 @@ jobs:
         run: echo "changed = ${{ steps.diff.outputs.changed }}"
 
 # ⑤ 差分ありの場合だけ LINE 通知
-      - name: Send LINE notification
-        if: steps.diff.outputs.changed == 'true'
-        run: |
-          curl -X POST \
-            -H "Authorization: Bearer ${{ secrets.LINE_ACCESS_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            -d "$(cat <<EOF
-    {
-      "to": "${LINE_USER_ID}",
-      "messages": [
-                {
-                  "type":"text",
+    - name: Send LINE notification
+    if: steps.diff.outputs.changed == 'true'   # ← 差分あるときだけ送りたいならそのまま
+    env:
+      LINE_ACCESS_TOKEN: ${{ secrets.LINE_ACCESS_TOKEN }}
+      LINE_USER_ID: ${{ secrets.LINE_USER_ID }}
+    run: |
+      curl -X POST https://api.line.me/v2/bot/message/push \
+        -H "Authorization: Bearer ${LINE_ACCESS_TOKEN}" \
+        -H "Content-Type: application/json" \
+        -d "{\"to\":\"${LINE_USER_ID}\",\"messages\":[{\"type\":\"text\",\"text\":\"ページ内容に変更がありました！\nhttps://worldtimeapi.org/api/timezone/Etc/UTC\"}]}"
+
                   "text":"ページ内容に変更がありました！\nhttps://worldtimeapi.org/api/timezone/Etc/UTC"
                 }
               ]
