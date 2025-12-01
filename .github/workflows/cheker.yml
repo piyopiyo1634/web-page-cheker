@@ -13,12 +13,13 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Fetch test page
+         - name: Fetch test page
         run: |
           mkdir -p snapshots
-          curl -s "https://api.github.com" > snapshots/current_test.json
-          echo "===== current_test.json ====="
-          cat snapshots/current_test.json
+          curl -s "http://example.com" > snapshots/current_test.html
+          echo "===== current_test.html ====="
+          cat snapshots/current_test.html
+
 
       - name: Compare with previous snapshot
         id: diff
