@@ -59,10 +59,10 @@ jobs:
         if: steps.diff.outputs.changed == 'true'
         run: |
           curl -X POST \
-            -H "Authorization: Bearer ${{ secrets.LINE_ACCESS_TOKEN }}" \
+            -H "Authorization: Bearer ${{bGvkkn1A0RKtc0/8kq6MOq/J9v6JSDc66qH/k3+zO6s97D3g4WBX220KsJ+m8+Hnk7jEWQfS7eJYUeMKK+FX9Axx5BvMRhlHYTUEtJKgGZ7TXTGPBE9IbGwz0YfONaWojLDS0PZmI+leNN53r0zLqgdB04t89/1O/w1cDnyilFU=}}" \
             -H "Content-Type: application/json" \
             -d '{
-              "to": "'${{ secrets.LINE_USER_ID }}'",
+              "to": "'${{U89504423f0bca517642541b77f3dc382}}'",
               "messages":[
                 {
                   "type":"text",
