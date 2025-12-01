@@ -49,3 +49,18 @@ jobs:
 
       - name: Show result
         run: echo "changed = ${{ steps.diff.outputs.changed }}"
+      - name: Send LINE notification
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          curl -X POST https://api.line.me/v2/bot/message/push \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer ${{ secrets.LINE_ACCESS_TOKEN }}" \
+            -d '{
+              "to": "U89504423f0bca517642541b77f3dc382",
+              "messages":[
+                {
+                  "type":"text",
+                  "text":"⚠ 変更 detected on test page!"
+                }
+              ]
+            }'
