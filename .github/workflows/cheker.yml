@@ -14,7 +14,7 @@ jobs:
       - name: Fetch current page
         run: |
           mkdir -p snapshots
-          curl -L -s "https://worldtimeapi.org/api/timezone/Etc/UTC" > snapshots/current_test.html
+          date -u +"%Y-%m-%dT%H:%M:%SZ" > snapshots/current_test.html
           echo "===== current_test.html (head) ====="
           head -n 5 snapshots/current_test.html
 
