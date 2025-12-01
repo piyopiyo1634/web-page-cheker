@@ -8,49 +8,46 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+    - name: Compare snapshot
+      id: diff
+      run: |
+        mkdir -p snapshots
 
-      - name: Fetch current page
-        run: |
-          mkdir -p snapshots
-          curl -L -s "https://worldtimeapi.org/api/timezone/Etc/UTC" > snapshots/current_test.html
-          echo "===== current_test.html (head) ====="
-          head -n 5 snapshots/current_test.html
-
-      - name: Compare snapshot
-        id: diff
-        run: |
-          mkdir -p snapshots
-          echo "Comparing with previous snapshot..."
-          if [ -f snapshots/last_test.html ]; then
-            if diff -q snapshots/current_test.html snapshots/last_test.html > /dev/null; then
-              echo "changed=false" >> $GITHUB_OUTPUT
-            else
-              echo "changed=true" >> $GITHUB_OUTPUT
-            fi
-          else
-            # 初回は必ず changed=true
-            echo "changed=true" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Save & Commit if changed
-        if: steps.diff.outputs.changed == 'true'
-        run: |
+        echo "===== diff start ====="
+        if [ ! -f snapshots/last_test.html ]; then
+          echo "No previous snapshot."
           cp snapshots/current_test.html snapshots/last_test.html
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          echo "changed=true" >> $GITHUB_OUTPUT
+          exit 0
+        fi
 
-          # 一応 main を取り込む
-          git fetch origin main
-          git merge --ff-only origin/main || true
+        # 差分比較
+        diff_result=$(diff -q snapshots/current_test.html snapshots/last_test.html || true)
+        echo "diff_result=$diff_result"
+        if [ -z "$diff_result" ]; then
+          echo "No change detected."
+          echo "changed=false" >> $GITHUB_OUTPUT
+        else
+          echo "Change detected!"
+          echo "changed=true" >> $GITHUB_OUTPUT
+        fi
+    - name: Save & Commit if changed
+      if: steps.diff.outputs.changed == 'true'
+      run: |
+        cp snapshots/current_test.html snapshots/last_test.html
 
-          git add snapshots/last_test.html
-          git commit -m "Update snapshot" || echo "No changes to commit"
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # race condition 対応：push が失敗しても続行
-          git push origin HEAD:main || echo "Push failed, but continue."
+        # 最新 main を取得（fast-forward only）
+        git fetch origin main
+        git merge --ff-only origin/main || true
+
+        git add snapshots/last_test.html
+        git commit -m "Update snapshot" || true
+
+        # push が race condition で失敗しても無視
+        git push origin HEAD:main || echo "Push failed, but continue."
       - name: Send LINE notification
         if: steps.diff.outputs.changed == 'true'
         env:
