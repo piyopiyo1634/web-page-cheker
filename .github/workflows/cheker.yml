@@ -1,34 +1,55 @@
-name: test-page-checker
+name: Test page checker
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 * * * *"
+    - cron: "0 * * * *"  # 毎時0分にも動くようにしておく
 
 jobs:
-  test:
+  check-test-page:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repo
         uses: actions/checkout@v4
 
       - name: Fetch test page
         run: |
           mkdir -p snapshots
-          curl -s "https://worldtimeapi.org/api/timezone/Etc/UTC" > snapshots/current.json
-          echo "===== current.json ====="
-          cat snapshots/current.json
+          curl -s "https://worldtimeapi.org/api/timezone/Etc/UTC" > snapshots/current_test.json
+          echo "===== current_test.json ====="
+          cat snapshots/current_test.json
+
       - name: Compare with previous snapshot
         id: diff
         run: |
-          [ -f snapshots/last.json ] || touch snapshots/last.json
-          if diff -q snapshots/last.json snapshots/current.json > /dev/null; then
+          mkdir -p snapshots
+
+          if [ -f snapshots/last_test.json ]; then
+            echo ">>> last_test.json exists, comparing..."
+          else
+            echo ">>> last_test.json does NOT exist yet (first run)."
+            touch snapshots/last_test.json
+          fi
+
+          if diff -q snapshots/last_test.json snapshots/current_test.json > /dev/null; then
+            echo "No change detected."
             echo "changed=false" >> $GITHUB_OUTPUT
           else
+            echo "Change detected!"
             echo "changed=true" >> $GITHUB_OUTPUT
           fi
 
-      - name: Save snapshot for next time
+      - name: Save snapshot & commit if changed
+        if: steps.diff.outputs.changed == 'true'
         run: |
-          cp snapshots/current.json snapshots/last.json
+          cp snapshots/current_test.json snapshots/last_test.json
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add snapshots/last_test.json
+          git commit -m "Update snapshot" || echo "No changes to commit"
+          git push
+
+      - name: Show changed flag
+        run: echo "changed = ${{ steps.diff.outputs.changed }}"
