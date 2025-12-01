@@ -8,5 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Say hello
-        run: echo "hello from github actions"
+      - name: Make snapshot folder
+        run: |
+          mkdir -p snapshots
+          echo "created snapshots folder"
