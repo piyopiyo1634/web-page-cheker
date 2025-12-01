@@ -1,55 +1,12 @@
-name: test-page-checker
+name: test-minimal
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 * * * *"
 
 jobs:
-  check:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
-      - name: Fetch test page
-        run: |
-          mkdir -p snapshots
-          curl -s "http://example.com" > snapshots/current.html
-          echo "===== current.html ====="
-          cat snapshots/current.html
-
-      - name: Compare with previous snapshot
-        id: diff
-        run: |
-          mkdir -p snapshots
-
-          if [ -f snapshots/last.html ]; then
-            echo ">>> last.html exists, comparing..."
-          else
-            echo ">>> last.html does NOT exist yet (first run)."
-            touch snapshots/last.html
-          fi
-
-          if diff -q snapshots/last.html snapshots/current.html > /dev/null; then
-            echo "No change detected."
-            echo "changed=false" >> $GITHUB_OUTPUT
-          else
-            echo "Change detected!"
-            echo "changed=true" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Save snapshot & commit if changed
-        if: steps.diff.outputs.changed == 'true'
-        run: |
-          cp snapshots/current.html snapshots/last.html
-
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add snapshots/last.html
-          git commit -m "Update snapshot" || echo "No changes to commit"
-          git push
-
-      - name: Show changed flag
-        run: echo "changed = ${{ steps.diff.outputs.changed }}"
+      - name: Say hello
+        run: echo "hello from github actions"
