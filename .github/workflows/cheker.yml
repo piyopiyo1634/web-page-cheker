@@ -1,21 +1,21 @@
-name: Test page checker
+name: test-page-checker
 
 on:
+  workflow_dispatch:
   schedule:
-    - cron: "0 * * * *"  # 毎時0分に実行
-  workflow_dispatch:      # 手動実行
+    - cron: "0 * * * *"
 
 jobs:
-  check-test-page:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Fetch test page
         run: |
           mkdir -p snapshots
-          curl -s "https://worldtimeapi.org/api/timezone/Etc/UTC" > snapshots/current_test.json
-          echo "===== current_test.json ====="
-          cat snapshots/current_test.json
+          curl -s "https://worldtimeapi.org/api/timezone/Etc/UTC" > snapshots/current.json
+          echo "===== current.json ====="
+          cat snapshots/current.json
