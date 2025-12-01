@@ -8,7 +8,8 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
-    - name: Compare snapshot
+    steps
+      - name: Compare snapshot
       id: diff
       run: |
         mkdir -p snapshots
