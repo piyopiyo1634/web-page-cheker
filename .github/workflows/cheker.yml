@@ -8,7 +8,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Make snapshot folder
+      - name: Fetch test page
         run: |
           mkdir -p snapshots
-          echo "created snapshots folder"
+          curl -s "http://example.com" > snapshots/current.html
+          echo "fetched ok"
