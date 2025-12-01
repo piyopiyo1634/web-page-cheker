@@ -16,7 +16,7 @@ jobs:
       - name: Fetch current page
         run: |
           mkdir -p snapshots
-          curl -L -s "https://worldtimeapi.org/api/timezone/Etc/UTC" > snapshots/current_test.html
+          curl -L -s  "https://example.com" > snapshots/current_test.html
           head -n 5 snapshots/current_test.html
 
       - name: Compare snapshot
