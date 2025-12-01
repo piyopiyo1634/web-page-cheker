@@ -9,6 +9,10 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0    # 省略してもいいけど、履歴取っておくならこれ
       - name: Fetch current page
         run: |
           mkdir -p snapshots
