@@ -59,11 +59,12 @@ jobs:
         if: steps.diff.outputs.changed == 'true'
         run: |
           curl -X POST \
-            -H "Authorization: Bearer ${{secrets.LINE_ACCESS_TOKEN}}" \
+            -H "Authorization: Bearer ${{ secrets.LINE_ACCESS_TOKEN }}" \
             -H "Content-Type: application/json" \
-            -d '{
-              "to": "'${{secrets.LINE_USER_ID}}'",
-              "messages":[
+            -d "$(cat <<EOF
+    {
+      "to": "${LINE_USER_ID}",
+      "messages": [
                 {
                   "type":"text",
                   "text":"ページ内容に変更がありました！\nhttps://worldtimeapi.org/api/timezone/Etc/UTC"
