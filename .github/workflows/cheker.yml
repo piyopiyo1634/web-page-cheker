@@ -14,18 +14,18 @@ jobs:
         run: |
           mkdir -p snapshots
 
-        echo "===== diff start ====="
-        if [ ! -f snapshots/last_test.html ]; then
-          echo "No previous snapshot."
-          cp snapshots/current_test.html snapshots/last_test.html
-          echo "changed=true" >> $GITHUB_OUTPUT
-          exit 0
-        fi
+          echo "===== diff start ====="
+          if [ ! -f snapshots/last_test.html ]; then
+            echo "No previous snapshot."
+            cp snapshots/current_test.html snapshots/last_test.html
+            echo "changed=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
 
         # 差分比較
-        diff_result=$(diff -q snapshots/current_test.html snapshots/last_test.html || true)
-        echo "diff_result=$diff_result"
-        if [ -z "$diff_result" ]; then
+          diff_result=$(diff -q snapshots/current_test.html snapshots/last_test.html || true)
+          echo "diff_result=$diff_result"
+          if [ -z "$diff_result" ]; then
           echo "No change detected."
           echo "changed=false" >> $GITHUB_OUTPUT
         else
