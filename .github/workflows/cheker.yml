@@ -53,3 +53,24 @@ jobs:
           git push origin HEAD:main || echo "Push failed, but continue."
       - name: Show result
         run: echo "changed = ${{ steps.diff.outputs.changed }}"
+
+# ⑤ 差分ありの場合だけ LINE 通知
+      - name: Send LINE notification
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.LINE_ACCESS_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "to": "'${{ secrets.LINE_USER_ID }}'",
+              "messages":[
+                {
+                  "type":"text",
+                  "text":"ページ内容に変更がありました！\nhttps://worldtimeapi.org/api/timezone/Etc/UTC"
+                }
+              ]
+            }' \
+            https://api.line.me/v2/bot/message/push
+
+      - name: Post Checkout repo
+        run: echo "job finished"
