@@ -1,4 +1,4 @@
-name: web-page-checker
+name: event-entry-checker.yml
 
 on:
   workflow_dispatch:
