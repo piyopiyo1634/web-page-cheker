@@ -13,12 +13,21 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0    # 省略してもいいけど、履歴取っておくならこれ
-      - name: Fetch current page
+          
+      - name: Setup Node              # ★追加1: Nodeセットアップ（Checkoutのすぐ下）
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install deps            # ★追加2: package.json の依存を入れる
+        run: npm install
+
+      - name: Fetch & normalize current page   # ★追加3: curl の代わりに normalize_html.js を使う
         run: |
           mkdir -p snapshots
-          curl -L -s  "https://bk-japan.myshopify.com/" > snapshots/current_test.html
+          node normalize_html.js "https://bk-japan.myshopify.com/" > snapshots/current_test.html
           head -n 5 snapshots/current_test.html
-
+      
       - name: Compare snapshot
         id: diff
         run: |
