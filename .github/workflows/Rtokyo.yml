@@ -16,8 +16,8 @@ jobs:
       - name: Fetch current page
         run: |
           mkdir -p snapshots
-          curl -L -s  "https://randonneurs.tokyo/?p=21169" > snapshots/current_test.html
-          head -n 5 snapshots/current_test.html
+          curl -L -s  "https://randonneurs.tokyo/?p=21169" > snapshots/event_current_test.html
+          head -n 5 snapshots/event_current_test.html
 
       - name: Compare snapshot
         id: diff
@@ -51,7 +51,7 @@ jobs:
           git fetch origin main
           git merge --ff-only origin/main || true
 
-          git add snapshots/last_test.html
+          git add snapshots/event_last_test.html
           git commit -m "Update snapshot" || true
 
           # push が race condition で失敗しても無視
