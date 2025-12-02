@@ -1,0 +1,79 @@
+name: web-page-checker
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 * * * *"   # 毎時0分に実行（あとで変更OK）
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0    # 省略してもいいけど、履歴取っておくならこれ
+      - name: Fetch current page
+        run: |
+          mkdir -p snapshots
+          curl -L -s  "https://randonneurs.tokyo/?p=21169" > snapshots/current_test.html
+          head -n 5 snapshots/current_test.html
+
+      - name: Compare snapshot
+        id: diff
+        run: |
+          echo "===== diff start ====="
+          if [ ! -f snapshots/last_test.html ]; then
+            echo "No previous snapshot."
+            cp snapshots/current_test.html snapshots/last_test.html
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          diff_result=$(diff -q snapshots/current_test.html snapshots/last_test.html || true)
+          echo "diff_result=$diff_result"
+          if [ -z "$diff_result" ]; then
+            echo "No change detected."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Change detected!"
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Save & Commit if changed
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          cp snapshots/current_test.html snapshots/last_test.html
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # 最新 main を取得（fast-forward only）
+          git fetch origin main
+          git merge --ff-only origin/main || true
+
+          git add snapshots/last_test.html
+          git commit -m "Update snapshot" || true
+
+          # push が race condition で失敗しても無視
+          git push origin HEAD:main || echo "Push failed, but continue."
+      - name: Send LINE notification
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          LINE_ACCESS_TOKEN: ${{ secrets.LINE_ACCESS_TOKEN }}
+          LINE_USER_ID: ${{ secrets.LINE_USER_ID }}
+        run: |
+          curl -X POST https://api.line.me/v2/bot/message/push \
+            -H "Authorization: Bearer ${LINE_ACCESS_TOKEN}" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"to\": \"${LINE_USER_ID}\",
+              \"messages\": [
+                {
+                  \"type\": \"text\",
+                  \"text\": \"R東京エントリー\"
+                }
+              ]
+            }"
+
+      - name: Show result
+        run: echo "changed = ${{ steps.diff.outputs.changed }}"
