@@ -29,6 +29,9 @@ async function main() {
 
   const $ = cheerio.load(html);
 
+   // ★追加：headごと削除（タイトルやOGタグの変化は無視）
+  $("head").remove();
+
   // 2) 動的っぽいタグをざっくり削除
   $("script").remove();
   $("style").remove();
@@ -46,6 +49,9 @@ async function main() {
   $("[data-random]").attr("data-random", "MASKED");
 
   let out = $.html();
+
+   // ★追加：`><` のところで改行して 1タグ1行にする
+  out = out.replace(/></g, '>\n<');
 
   // 日付＋時刻っぽい文字列をざっくりマスク（必要なら）
   out = out.replace(
