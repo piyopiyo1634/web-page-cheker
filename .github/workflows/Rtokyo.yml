@@ -23,14 +23,14 @@ jobs:
         id: diff
         run: |
           echo "===== diff start ====="
-          if [ ! -f snapshots/last_test.html ]; then
+          if [ ! -f snapshots/event_last_test.html ]; then
             echo "No previous snapshot."
-            cp snapshots/current_test.html snapshots/last_test.html
+            cp snapshots/event_current_test.html snapshots/event_last_test.html
             echo "changed=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
-          diff_result=$(diff -q snapshots/current_test.html snapshots/last_test.html || true)
+          diff_result=$(diff -q snapshots/event_current_test.html snapshots/event_last_test.html || true)
           echo "diff_result=$diff_result"
           if [ -z "$diff_result" ]; then
             echo "No change detected."
@@ -42,7 +42,7 @@ jobs:
       - name: Save & Commit if changed
         if: steps.diff.outputs.changed == 'true'
         run: |
-          cp snapshots/current_test.html snapshots/last_test.html
+          cp snapshots/event_current_test.html snapshots/event_last_test.html
 
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
