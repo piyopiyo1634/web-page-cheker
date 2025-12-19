@@ -28,6 +28,13 @@ jobs:
         working-directory: tdr-price-checker
         run: npx playwright install --with-deps chromium
 
+      - name: Verify playwright installed
+        working-directory: tdr-price-checker
+        run: |
+         set -euxo pipefail
+         echo "=== verify playwright ==="
+         node -p "require.resolve('playwright')"
+      
       - name: Debug (confirm paths)
         run: |
           echo "PWD=$(pwd)"
