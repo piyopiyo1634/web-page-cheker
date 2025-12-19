@@ -25,7 +25,7 @@ function writeOutputs(lines) {
     const page = await browser.newPage();
     page.setDefaultTimeout(60000);
 
-    await page.goto(URL, { waitUntil: "domcontentloaded" });
+    await page.goto(URL, { waitUntil:"networkidle", timeout: 180000  });
     await page.waitForTimeout(1500);
 
     const bodyText = (await page.textContent("body")) ?? "";
