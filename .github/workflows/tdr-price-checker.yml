@@ -21,26 +21,24 @@ jobs:
 
       # --- ここから完全に tdr-price-checker に閉じる ---
       # ===== deps / playwright (tdr-price-checker 内だけで完結) =====
-
       - name: Install deps (clean)
         working-directory: tdr-price-checker
         run: |
-          set -euxo pipefail
-          echo "PWD=$(pwd)"
-          echo "=== BEFORE ==="
-          ls -la
-          echo "=== package.json ==="
-          cat package.json
+         set -euxo pipefail
+         echo "PWD=$(pwd)"
+         echo "=== BEFORE ==="
+         ls -la
+         echo "=== package.json ==="
+         ls -la ./package.json || true
+         cat ./package.json
 
-          # クリーンにしてから入れ直す（中途半端な node_modules を潰す）
-          rm -rf node_modules package-lock.json
+         rm -rf node_modules package-lock.json
+         npm install
 
-          npm install
+         echo "=== AFTER ==="
+         ls -la
+         ls -la node_modules | head -n 30
 
-          echo "=== AFTER ==="
-          ls -la
-          echo "=== node_modules (head) ==="
-          ls -la node_modules | head -n 50
 
       - name: Install Playwright browser
         working-directory: tdr-price-checker
