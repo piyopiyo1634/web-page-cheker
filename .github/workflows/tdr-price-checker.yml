@@ -20,20 +20,43 @@ jobs:
           node-version: "22"
 
       # --- ここから完全に tdr-price-checker に閉じる ---
-      - name: Install deps (isolated)
+      # ===== deps / playwright (tdr-price-checker 内だけで完結) =====
+
+      - name: Install deps (clean)
         working-directory: tdr-price-checker
-        run: npm install
+        run: |
+          set -euxo pipefail
+          echo "PWD=$(pwd)"
+          echo "=== BEFORE ==="
+          ls -la
+          echo "=== package.json ==="
+          cat package.json
+
+          # クリーンにしてから入れ直す（中途半端な node_modules を潰す）
+          rm -rf node_modules package-lock.json
+
+          npm install
+
+          echo "=== AFTER ==="
+          ls -la
+          echo "=== node_modules (head) ==="
+          ls -la node_modules | head -n 50
 
       - name: Install Playwright browser
         working-directory: tdr-price-checker
-        run: npx playwright install --with-deps chromium
+        run: |
+          set -euxo pipefail
+          npx playwright install --with-deps chromium
 
       - name: Verify playwright installed
         working-directory: tdr-price-checker
         run: |
-         set -euxo pipefail
-         echo "=== verify playwright ==="
-         node -p "require.resolve('playwright')"
+          set -euxo pipefail
+          echo "=== verify playwright ==="
+          node -e "import('playwright').then(()=>console.log('OK')).catch(e=>{console.error(e);process.exit(1)})"
+
+      # ===== deps / playwright ここまで =====
+
       
       - name: Debug (confirm paths)
         run: |
