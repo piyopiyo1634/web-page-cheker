@@ -16,23 +16,22 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Install deps
+      - name: Install deps (isolated)
+        working-directory: tdr-price-checker
         run: npm install
 
       - name: Install Playwright browser
+        working-directory: tdr-price-checker
         run: npx playwright install --with-deps chromium
 
       - name: Run checker
         id: price
+        working-directory: tdr-price-checker
         env:
           TARGET_URL: "https://reserve.tokyodisneyresort.jp/hotel/list/?showWay=&roomsNum=1&adultNum=3&childNum=0&stayingDays=1&useDate=20260413&cpListStr=&childAgeBedInform=&searchHotelCD=DHM&searchHotelDiv=&hotelName=&searchHotelName=&searchLayer=&searchRoomName=&hotelSearchDetail=true&detailOpenFlg=0&checkPointStr=&hotelChangeFlg=false&removeSessionFlg=true&returnFlg=false&hotelShowFlg=&displayType=data-hotel&reservationStatus=1"
           THRESHOLD_YEN: "117400"
-        run: |
-          echo "PWD=$(pwd)"
-          echo "LS:"
-          ls -la
-          echo "Run root script:"
-          node ./check_disney_price.js
+        run: node ./check_disney_price.js
+ 
 
       - name: Show result
         run: |
