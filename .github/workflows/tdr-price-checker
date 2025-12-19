@@ -1,0 +1,36 @@
+name: tdr-price-checker
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 1 * * *"  # 毎日 日本時間10:00
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Run checker
+        id: price
+        env:
+          TARGET_URL: "https://reserve.tokyodisneyresort.jp/hotel/list/?showWay=&roomsNum=1&adultNum=3&childNum=0&stayingDays=1&useDate=20260413&cpListStr=&childAgeBedInform=&searchHotelCD=DHM&searchHotelDiv=&hotelName=&searchHotelName=&searchLayer=&searchRoomName=&hotelSearchDetail=true&detailOpenFlg=0&checkPointStr=&hotelChangeFlg=false&removeSessionFlg=true&returnFlg=false&hotelShowFlg=&displayType=data-hotel&reservationStatus=1"
+          THRESHOLD_YEN: "117400"
+        run: node check_disney_price.js
+
+      - name: Show result
+        run: |
+          echo "changed=${{ steps.price.outputs.changed }}"
+          echo "min_price_yen=${{ steps.price.outputs.min_price_yen }}"
+          echo "status=${{ steps.price.outputs.status }}"
