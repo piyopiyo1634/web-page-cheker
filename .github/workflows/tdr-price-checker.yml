@@ -24,6 +24,15 @@ jobs:
         working-directory: tdr-price-checker
         run: npx playwright install --with-deps chromium
 
+      - name: Debug: show dirs
+        run: |
+          pwd
+          ls -la
+          echo "==== tdr dirs ===="
+          ls -la tdr-price-cheke || true
+          ls -la tdr-price-checker || true
+
+
       - name: Run checker
         id: price
         working-directory: tdr-price-checker
