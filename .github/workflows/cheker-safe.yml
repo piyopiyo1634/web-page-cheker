@@ -1,4 +1,4 @@
-# REV: 2026-03-16T02:34:59+09:00
+# REV: 2026-03-16T02:47:39+09:00
 name: web-page-checker
 
 on:
@@ -36,6 +36,9 @@ jobs:
           if [ ! -f snapshots/last_test.html ]; then
             echo "No previous snapshot."
             cp snapshots/current_test.html snapshots/last_test.html
+            : > snapshots/last_diff.txt
+            echo "plus_lines=0" >> "$GITHUB_OUTPUT"
+            echo "minus_lines=0" >> "$GITHUB_OUTPUT"
             echo "changed=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
@@ -44,9 +47,22 @@ jobs:
           echo "diff_result=$diff_result"
           if [ -z "$diff_result" ]; then
             echo "No change detected."
+            : > snapshots/last_diff.txt
+            echo "plus_lines=0" >> "$GITHUB_OUTPUT"
+            echo "minus_lines=0" >> "$GITHUB_OUTPUT"
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             echo "Change detected!"
+            diff snapshots/last_test.html snapshots/current_test.html > snapshots/last_diff.txt || true
+            cat snapshots/last_diff.txt
+
+            diff -U 0 snapshots/last_test.html snapshots/current_test.html > snapshots/last_diff_unified.txt || true
+            plus_lines=$(grep -E '^\+[^+]' snapshots/last_diff_unified.txt | wc -l | tr -d ' ')
+            minus_lines=$(grep -E '^-[^-]' snapshots/last_diff_unified.txt | wc -l | tr -d ' ')
+            rm -f snapshots/last_diff_unified.txt
+
+            echo "plus_lines=${plus_lines}" >> "$GITHUB_OUTPUT"
+            echo "minus_lines=${minus_lines}" >> "$GITHUB_OUTPUT"
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
@@ -62,6 +78,7 @@ jobs:
           git merge --ff-only origin/main || true
 
           git add snapshots/last_test.html
+          git add snapshots/last_diff.txt
           git commit -m "Update snapshot" || true
 
           git push origin HEAD:main || echo "Push failed, but continue."
@@ -82,7 +99,7 @@ jobs:
                 \"messages\": [
                   {
                     \"type\": \"text\",
-                    \"text\": \"Burger King page changed\nhttps://bk-japan.myshopify.com/\"
+                    \"text\": \"Burger King page changed\nhttps://bk-japan.myshopify.com/\n変更行数: +${{ steps.diff.outputs.plus_lines }}行 -${{ steps.diff.outputs.minus_lines }}行\"
                   }
                 ]
               }"

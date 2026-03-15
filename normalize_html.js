@@ -1,4 +1,4 @@
-// REV: 2026-03-16T02:34:59+09:00
+// REV: 2026-03-16T02:43:02+09:00
 // Usage: node normalize_html.js "https://example.com" > normalized.html
 
 import fetch from "node-fetch";
@@ -14,7 +14,10 @@ const VOLATILE_ATTRS = [
   "imagesrcset",
   "fetchpriority",
   "loading",
-  "decoding"
+  "decoding",
+  "tabindex",
+  "hidden",
+  "open"
 ];
 
 const VOLATILE_META_NAMES = [
@@ -110,6 +113,9 @@ function normalizeDom($) {
   // 1) head/script/style/noscript are not meaningful page content for diffing.
   $("head, script, style, noscript, template, svg defs").remove();
 
+  // 1.5) Remove storefront helper UI that can appear without representing a content change.
+  $("#a11y-refresh-page-message, #locksmith-spinner-wrapper").remove();
+
   // 2) Remove volatile meta tags that contain request/session/build-specific values.
   for (const name of VOLATILE_META_NAMES) {
     $(`meta[name="${name}"]`).remove();
@@ -142,7 +148,10 @@ function normalizeDom($) {
       if (attrName.startsWith("data-")) {
         el.removeAttr(attrName);
       }
-      if (attrName.startsWith("aria-") && /^aria-describedby$/i.test(attrName)) {
+      if (
+        /^aria-(describedby|live|busy|hidden|controls|owns|labelledby)$/i.test(attrName) ||
+        attrName === "role"
+      ) {
         el.removeAttr(attrName);
       }
     }
