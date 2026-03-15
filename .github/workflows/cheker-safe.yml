@@ -1,9 +1,10 @@
+# REV: 2026-03-16T02:34:59+09:00
 name: web-page-checker
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 1 * * *"   # 毎時0分に実行（あとで変更OK）
+    - cron: "0 * * * *"   # Run once per hour.
 
 jobs:
   check:
@@ -12,22 +13,22 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0    # 省略してもいいけど、履歴取っておくならこれ
-          
-      - name: Setup Node              # ★追加1: Nodeセットアップ（Checkoutのすぐ下）
+          fetch-depth: 0
+
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "22"
 
-      - name: Install deps            # ★追加2: package.json の依存を入れる
+      - name: Install deps
         run: npm install
 
-      - name: Fetch & normalize current page   # ★追加3: curl の代わりに normalize_html.js を使う
+      - name: Fetch & normalize current page
         run: |
           mkdir -p snapshots
           node normalize_html.js "https://bk-japan.myshopify.com/" > snapshots/current_test.html
           head -n 5 snapshots/current_test.html
-      
+
       - name: Compare snapshot
         id: diff
         run: |
@@ -48,6 +49,7 @@ jobs:
             echo "Change detected!"
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
+
       - name: Save & Commit if changed
         if: steps.diff.outputs.changed == 'true'
         run: |
@@ -56,15 +58,14 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # 最新 main を取得（fast-forward only）
           git fetch origin main
           git merge --ff-only origin/main || true
 
           git add snapshots/last_test.html
           git commit -m "Update snapshot" || true
 
-          # push が race condition で失敗しても無視
           git push origin HEAD:main || echo "Push failed, but continue."
+
       - name: Send LINE notification
         if: steps.diff.outputs.changed == 'true'
         env:
@@ -81,7 +82,7 @@ jobs:
                 \"messages\": [
                   {
                     \"type\": \"text\",
-                    \"text\": \"戦だ！！🔥\\nhttps://bk-japan.myshopify.com/\"
+                    \"text\": \"Burger King page changed\nhttps://bk-japan.myshopify.com/\"
                   }
                 ]
               }"
