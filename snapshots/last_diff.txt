@@ -1,4 +1,4 @@
-714a715
-> <span>完売</span>
-1213a1215
-> <span>完売</span>
+715d714
+< <span>完売</span>
+1215d1213
+< <span>完売</span>
