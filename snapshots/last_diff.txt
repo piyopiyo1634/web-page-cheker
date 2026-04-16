@@ -1,8 +1,8 @@
 237c237
-< <a href="/account/register">
+< <a href="https://shopify.com/TIMESTAMP/account?locale=ja">
 ---
-> <a href="https://shopify.com/TIMESTAMP/account?locale=ja">
+> <a href="/account/register">
 511c511
-< <a href="/account/login">
+< <a href="https://bk-japan.myshopify.com/customer_authentication/redirect?locale=ja&amp;region_country=JP">
 ---
-> <a href="https://bk-japan.myshopify.com/customer_authentication/redirect?locale=ja&amp;region_country=JP">
+> <a href="/account/login">
