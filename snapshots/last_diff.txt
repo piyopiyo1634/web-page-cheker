@@ -1,8 +1,4 @@
 237c237
-< <a href="/account/register">
+< <a href="https://shopify.com/TIMESTAMP/account?locale=ja&amp;buyer_flags=eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJiay1qYXBhbi5teXNob3BpZnkuY29tIiwiZmxhZ3MiOltdLCJleHAiOjE3Nzg2MDY1MjUsIm5iZiI6MTc3ODAwMTcyNX0.eGodRTbip1G3cjMMyiavfgMHloV0nRMpOJOfk1AwVEc">
 ---
-> <a href="https://shopify.com/TIMESTAMP/account?locale=ja&amp;buyer_flags=eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJiay1qYXBhbi5teXNob3BpZnkuY29tIiwiZmxhZ3MiOltdLCJleHAiOjE3Nzg2MDY1MjUsIm5iZiI6MTc3ODAwMTcyNX0.eGodRTbip1G3cjMMyiavfgMHloV0nRMpOJOfk1AwVEc">
-511c511
-< <a href="/account/login">
----
-> <a href="https://bk-japan.myshopify.com/customer_authentication/redirect?locale=ja&amp;region_country=JP">
+> <a href="https://shopify.com/TIMESTAMP/account?locale=ja&amp;buyer_flags=eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJiay1qYXBhbi5teXNob3BpZnkuY29tIiwiZmxhZ3MiOltdLCJleHAiOjE3Nzg2MTMzODMsIm5iZiI6MTc3ODAwODU4M30.pPSpNgiIwv2odUd7SSWJdqE067Fsx2Z2bJ1BbZtUowk">
