@@ -1,4 +1,8 @@
 237c237
-< <a href="https://shopify.com/TIMESTAMP/account?locale=ja&amp;buyer_flags=eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJiay1qYXBhbi5teXNob3BpZnkuY29tIiwiZmxhZ3MiOltdLCJleHAiOjE3NzkzODI3OTMsIm5iZiI6MTc3ODc3Nzk5M30.DPKTJb_ZWB_RrQCxlw2lINT3ApqXkaLStToLKv-DXEs">
+< <a href="https://shopify.com/TIMESTAMP/account?locale=ja&amp;buyer_flags=eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJiay1qYXBhbi5teXNob3BpZnkuY29tIiwiZmxhZ3MiOltdLCJleHAiOjE3NzkzODk5NjYsIm5iZiI6MTc3ODc4NTE2Nn0.gwpHeB_dE_XDxhDldgsTxiACndhB-0ujXdmPM69zJQU">
 ---
-> <a href="https://shopify.com/TIMESTAMP/account?locale=ja&amp;buyer_flags=eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJiay1qYXBhbi5teXNob3BpZnkuY29tIiwiZmxhZ3MiOltdLCJleHAiOjE3NzkzODk5NjYsIm5iZiI6MTc3ODc4NTE2Nn0.gwpHeB_dE_XDxhDldgsTxiACndhB-0ujXdmPM69zJQU">
+> <a href="/account/register">
+511c511
+< <a href="https://bk-japan.myshopify.com/customer_authentication/redirect?locale=ja&amp;region_country=JP">
+---
+> <a href="/account/login">
