@@ -1,4 +1,168 @@
-8c8
-< <img src="https://cdn.shopify.com/s/files/1/0591/5292/4850/files/logo_2beec771-18ab-4d68-b9b1-9d091c9441a9_500x500.png" alt="ワンパウンダーチャレンジ2026" width="50" height="54.691812327506895">
+4a5
+> <main id="MainContent">
+6a8
+> <section>
+8,27d9
+< <img src="https://bk-japan.myshopify.com/cdn/shop/files/logo_2beec771-18ab-4d68-b9b1-9d091c9441a9_500x500.png" alt="ワンパウンダーチャレンジ2026" width="50" height="54.691812327506895">
+< <password-modal>
+< <details>
+< <summary aria-haspopup="dialog">
+< <div>
+< <svg focusable="false" viewBox="0 0 16 21" fill="none">
+< </svg>パスワードを入力してアクセスする</div>
+< <div>
+< <svg xmlns="http://www.w3.org/2000/svg" focusable="false" fill="none" viewBox="0 0 18 17">
+< </svg>
+< </div>
+< </summary>
+< <div aria-modal="true">
+< <div>
+< <button type="button" aria-label="閉じる">
+< <svg xmlns="http://www.w3.org/2000/svg" focusable="false" fill="none" viewBox="0 0 18 17">
+< </svg>
+< </button>
+< <h2 id="DialogHeading">パスワードを入力してストアにアクセスする。</h2>
+< <form method="post" action="/password" id="login_form" accept-charset="UTF-8">
+29c11,15
+< <label for="パスワード">あなたのパスワード</label>
 ---
-> <img src="https://bk-japan.myshopify.com/cdn/shop/files/logo_2beec771-18ab-4d68-b9b1-9d091c9441a9_500x500.png" alt="ワンパウンダーチャレンジ2026" width="50" height="54.691812327506895">
+> <img src="https://cdn.shopify.com/s/files/1/0591/5292/4850/files/logo_e000d49a-6f3e-4a23-a179-ef454b598e05.png">
+> <p>ワンパウンダーチャレンジ2026 第2弾</p>
+> <h2>バーガーキング<small>®</small>公式アプリ<br>ダイヤモンドメンバー限定<br>【参加チケット先行販売のご案内】</h2>
+> <p>6/8<span>（月）</span>23:59まで</p>
+> <p>いつもバーガーキング<small>®</small>をご愛顧いただきありがとうございます。<br>ダイヤモンドメンバーの方限定でバーガーキング<small>®</small>の食べたい放題イベント<br>「ワンパウンダーチャレンジ」参加チケットの先行販売をご案内いたします。<br>※お1人様1枚限定でのご案内となります。予めご了承ください。</p>
+31,34c17,25
+< <button name="commit">入力</button>
+< </form>
+< <small>あなたはストアオーナーですか?<a href="/admin">こちらからログインする</a>
+< </small>
+---
+> </div>
+> </section>
+> <section>
+> <div>
+> <div>
+> <p>ご注意</p>
+> <div>
+> <p>「ワンパウンダーチャレンジ」の<br>チケットを購入するには、<br>チケットサイトへの会員登録が必要です。</p>
+> <p>バーガーキング<small>®</small>公式アプリと<br>チケットサイトのアカウントは異なります。<br>アカウントをお持ちでない方は新規会員登録が必要です。<br>チケットサイトでご登録済みの方はログイン、<br>未登録の方は新規会員登録をお願いします。</p>
+37,38d27
+< </details>
+< </password-modal>
+39a29,49
+> </section>
+> <section>
+> <div>
+> <h2>当てはまる方をお選びください</h2>
+> <div>
+> <p>「ワンパウンダーチャレンジ」<br>
+> <strong>チケットサイトに<br>ご登録済みの方</strong>
+> </p>
+> <p>※購入有無を問わず登録済みの方が対象です</p>
+> <button type="button">ログインする</button>
+> </div>
+> <div>
+> <p>「ワンパウンダーチャレンジ」<br>
+> <strong>チケットサイトに<br>ご登録されていない方</strong>
+> </p>
+> <p>※登録有無が不明な方は<br>新規会員登録をお願いいたします</p>
+> <button type="button">新規会員登録をする</button>
+> </div>
+> <p>
+> <a href="/pages/contact">ご不明な点がございましたら、お問い合わせフォームよりご連絡ください</a>
+> </p>
+40a51
+> </section>
+42c53
+< <main id="MainContent">
+---
+> <div>
+46c57,62
+< <h2>サイトメンテナンス</h2>
+---
+> <img src="https://cdn.shopify.com/s/files/1/0591/5292/4850/files/logo_e000d49a-6f3e-4a23-a179-ef454b598e05.png">
+> <p>ワンパウンダーチャレンジ2026 第2弾</p>
+> </div>
+> </div>
+> </section>
+> <section>
+48c64,89
+< <p>現在サイトのメンテナンスを行なっております。</p>
+---
+> <div>
+> <h2>ログインする</h2>
+> <div>
+> <div>
+> <form method="post" action="/account/login" id="customer_login" accept-charset="UTF-8">
+> <div>このメールアドレスは既に登録されています。<a href="/account/recover">パスワードをリセットする場合はこちら</a>をタップしてください。</div>
+> <button type="submit">ログインする</button>
+> </form>
+> <p>
+> <a href="/account/recover">パスワードをお忘れですか？</a>
+> </p>
+> </div>
+> <div>
+> <div>
+> <p>パスワードをリセットするためのメールを送信します</p>
+> <form method="post" action="/account/recover" accept-charset="UTF-8">
+> <button type="submit">パスワードをリセットする</button>
+> <p>
+> <a href="#">キャンセル</a>
+> </p>
+> </form>
+> </div>
+> </div>
+> </div>
+> <div>
+> <p>バーガーキング<small>®</small>公式アプリと<br>チケットサイトのアカウントは異なります。<br>アカウントをお持ちでない方は新規会員登録が必要です。<br>チケットサイトでご登録いただいたログイン情報で<br>ログインをお願いいたします。<br>未登録の方は新規会員登録をお願いいたします。</p>
+53,54c94,112
+< </main>
+< <footer>
+---
+> <section>
+> <div>
+> <p>ログインを試みても<br>メンテナンス画面が表示される場合は<br>バーガーキング<small>®</small>公式アプリのご案内から<br>再度アクセスをお願いいたします</p>
+> <p>
+> <a href="#">戻る</a>
+> </p>
+> </div>
+> </section>
+> </div>
+> <div>
+> <section>
+> <div>
+> <div>
+> <img src="https://cdn.shopify.com/s/files/1/0591/5292/4850/files/logo_e000d49a-6f3e-4a23-a179-ef454b598e05.png">
+> <p>ワンパウンダーチャレンジ2026 第2弾</p>
+> </div>
+> </div>
+> </section>
+> <section>
+56a115,125
+> <h2>新規会員登録</h2>
+> <div>
+> <form method="post" action="/account" id="create_customer" accept-charset="UTF-8">
+> <button type="submit">新規会員登録をする</button>
+> </form>
+> </div>
+> <div>
+> <p>バーガーキング<small>®</small>公式アプリと<br>チケットサイトのアカウントは異なります。<br>公式アプリに登録いただいているメールアドレスと<br>同じものでご登録いただく必要はございません。</p>
+> </div>
+> <div>
+> <p>※＠softbank.ne.jp、＠ezweb.ne.jp、＠docomo.ne.jp等の<br>キャリアメールをお使いの場合、メールが届かないことがございます。<br>また＠icloud.comのメールも同様、<br>メールが届かないことがございます。<br>GmailなどのWEBメールでのご登録をおすすめします。</p>
+59c128,140
+< </footer>
+---
+> </div>
+> </section>
+> <section>
+> <div>
+> <p>新規会員登録を試みても<br>メンテナンス画面が表示される場合は<br>バーガーキング<small>®</small>公式アプリのご案内から<br>再度アクセスをお願いいたします</p>
+> <p>
+> <a href="#">戻る</a>
+> </p>
+> </div>
+> </section>
+> </div>
+> </div>
+> </main>
