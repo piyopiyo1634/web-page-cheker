@@ -1,34 +1,4 @@
-368c368
-< <img src="https://cdn.shopify.com/s/files/1/0591/5292/4850/files/logo_64x.png" width="282" height="286" alt="ワンパウンダーチャレンジ2026">
----
-> <img src="https://bk-japan.myshopify.com/cdn/shop/files/logo_64x.png" width="282" height="286" alt="ワンパウンダーチャレンジ2026">
-736,737c736,737
-< <img sizes="100vw" src="https://cdn.shopify.com/s/files/1/0591/5292/4850/files/kv-pc_750x.jpg" alt="ダーティ ザ・ワンパウンダー" width="2999" height="4079.TIMESTAMP">
-< <img sizes="100vw" src="https://cdn.shopify.com/s/files/1/0591/5292/4850/files/kv-sp_6eea5eeb-0c48-486e-9eb6-eca57528e447_750x.jpg" width="1501" height="2613.0">
----
-> <img sizes="100vw" src="https://bk-japan.myshopify.com/cdn/shop/files/kv-pc_750x.jpg" alt="ダーティ ザ・ワンパウンダー" width="2999" height="4079.TIMESTAMP">
-> <img sizes="100vw" src="https://bk-japan.myshopify.com/cdn/shop/files/kv-sp_6eea5eeb-0c48-486e-9eb6-eca57528e447_750x.jpg" width="1501" height="2613.0">
-1329,1330c1329,1330
-< <img src="https://cdn.shopify.com/s/files/1/0591/5292/4850/files/ogp_22ccd96c-fbac-466c-82e4-5de98d980283.jpg">
-< <img src="https://cdn.shopify.com/s/files/1/0591/5292/4850/files/0801.jpg">
----
-> <img src="https://bk-japan.myshopify.com/cdn/shop/files/ogp_22ccd96c-fbac-466c-82e4-5de98d980283.jpg">
-> <img src="https://bk-japan.myshopify.com/cdn/shop/files/0801.jpg">
-1347,1348c1347,1348
-< <img src="https://cdn.shopify.com/s/files/1/0591/5292/4850/files/0802.jpg">
-< <img src="https://cdn.shopify.com/s/files/1/0591/5292/4850/files/0803.jpg">
----
-> <img src="https://bk-japan.myshopify.com/cdn/shop/files/0802.jpg">
-> <img src="https://bk-japan.myshopify.com/cdn/shop/files/0803.jpg">
-1361c1361
-< <img src="https://cdn.shopify.com/s/files/1/0591/5292/4850/files/PR__2.jpg">
----
-> <img src="https://bk-japan.myshopify.com/cdn/shop/files/PR__2.jpg">
-1369c1369
-< <img src="https://cdn.shopify.com/s/files/1/0591/5292/4850/files/0804.jpg">
----
-> <img src="https://bk-japan.myshopify.com/cdn/shop/files/0804.jpg">
-1865c1865
-< <img src="https://cdn.shopify.com/s/files/1/0591/5292/4850/files/202608_533x.png">
----
-> <img src="https://bk-japan.myshopify.com/cdn/shop/files/202608_533x.png">
+1168d1167
+< <span>完売</span>
+1755d1753
+< <span>完売</span>
